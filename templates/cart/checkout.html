@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<style>
+  body{
+  font-family: "Poppins", sans-serif;
+
+}
+
+li a:hover{
+  text-decoration: none;
+}
+</style>
+
+
+<section class="shopping_cart_area p_100">
+
+<div class="container">
+  <div class="col-lg-4">
+    <div class="total_amount_area">
+      <div class="cart_totals">
+        <h3 class="cart_single_title"  style="text-align:center;">Total</h3>
+        <div class="cart_total_inner">
+          <ul>
+            <li><a href="#"><span>Total Item(s)</span>{{request.session.items_total}}</a></li>
+            <li><a href="#"><span>Cart Total</span>${{request.session.total|floatformat:2}}</a></li>
+            <li><a href="#"><span>GST/HST</span>$ {{request.session.tax_total|floatformat:2}}</a></li>
+            <li><a href="#"><span>Shipping</span>$ {{request.session.shipping_fee|floatformat:2}}</a></li>
+            <li><a href="#"><span>Total Amount</span>${{request.session.final_total|floatformat:2}}</a></li>
+          </ul>
+        </div>
+
+        <div class='col-sm-12'>
+          <a class="float-left btn" style="background-color:black;color: white" href='{% url "cart"%}'>Back to Cart</a>
+          <a class="float-right btn" style="background-color:black;color: white" href='{% url "process_payment"%}'>Process Checkout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  {% comment %} <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_s-xclick">
+    <input type="hidden" name="hosted_button_id" value="4F2VZ68HHN8KC">
+    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit"
+      alt="PayPal - The safer, easier way to pay online!">
+    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+  </form>
+</div>
+
+</section>
+
+
+{% endcomment %}
+
+<div class="margin-bottom">
+    &nbsp;
+</div>
+
+
+
+
+
+
+
+<!-- <div class='col-sm-8 col-sm-offset-2'>
+    <h1>Checkout</h1><br><br>
+      <p>Item Count: {{request.session.items_total}} </p>
+      <p>Cart Total: ${{request.session.total|floatformat:2}}</p>
+      <p>Shipping fee: ${{request.session.shipping_fee|floatformat:2}} </p>
+      <p>GST/HST: ${{request.session.tax_total|floatformat:2}}</p>
+      <p>Order total : ${{request.session.final_total|floatformat:2}}</p><br>
+  <div class='col-sm-12'>
+    <a class="float-left btn btn-warning" href='{% url "cart"%}'>Back to Cart</a>
+    <a class="float-right btn btn-success" href='{% url "process_payment"%}'>Proceed to Checkout</a>
+
+    </div>
+
+
+    {% comment %} <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_s-xclick">
+      <input type="hidden" name="hosted_button_id" value="4F2VZ68HHN8KC">
+      <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit"
+        alt="PayPal - The safer, easier way to pay online!">
+      <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+    </form>
+
+
+  </div> -->
+{% endcomment %}
+
+<!--
+<script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
+<script>paypal.Buttons().render('body');</script>
+</div>
+</div>
+-->
+<!--paypal-->
+<!--
+<script>
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '0.01'
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        alert('Transaction completed by ' + details.payer.name.given_name);
+        // Call your server to save the transaction
+        return fetch('/paypal-transaction-complete', {
+          method: 'post',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            orderID: data.orderID
+          })
+        });
+      });
+    }
+  }).render('#paypal-button-container');
+</script>
+-->
+{% endblock %}

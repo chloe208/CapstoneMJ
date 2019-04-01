@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+        	
+    <table class="table table-striped">
+    <br>
+    <h3 style="text-align:center;">Your order history</h3>
+<br><br>
+  <tr>
+    <th>Date</th>
+    <th>Invoice ID</th> 
+    <th>Total</th>
+  </tr>
+  {% for o in orders %}
+  <tr>
+    <td scope="row">{{o.timestamp}}</td>
+   
+    
+    <td>{{o.order_id}}</td>
+    <td>{{o.final_total}}</td>
+  </tr>
+  {% endfor %}
+
+</table>
+  
+</div>
+ <div class="margin-bottom">
+            &nbsp;;
+        </div>
+{% endblock %}

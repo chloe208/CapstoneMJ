@@ -1,0 +1,21 @@
+{# THIS IS WHERE THE HEADER FOOTER IS #}
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  &nbsp;
+  <div class="contact_title">
+    <h2>You have been logged out</h2>
+    <!-- <div class="border-top pt-3"> -->
+       <p><a href={% url 'login' %}>Log In Again</a></p>
+    </div>
+  </div>
+  </div>
+  {% comment %} to redirect directly to home page {% endcomment %}
+  <script>
+    function redirect() {
+      window.location.href = "/";
+    }
+
+    setTimeout(redirect, 5000); //redirect to home after 5 seconds 
+  </script>
+  {% endblock content%}

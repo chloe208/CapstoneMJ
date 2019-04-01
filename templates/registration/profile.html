@@ -1,0 +1,85 @@
+{# THIS IS WHERE THE HEADER FOOTER IS #}
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<style>
+    .check {
+        font-size: 24px;
+        /* border: 1px solid #cccccc; */
+        color: #333333;
+        text-align: left !important;
+        display: inline-block;
+        line-height: 48px;
+        padding: 0px 16px;
+    }
+
+    .card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+button:hover, a:hover {
+  opacity: 0.7;
+}
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<br><br><br>
+
+<div class="margin card">
+
+<div class="container">
+    <div class="contact_title">
+<br>
+        <h2>My Profile</h2>
+          <img src="/static/media/user_default.png" alt="default" style=" border-radius: 50%;">
+        <div class="title" style="text-align:left">
+
+            Username: {{ user.username }}
+            <br>
+            Email: {{ user.email }}
+            <br>
+            My Favorite     <a href="/favorite"><i class="fa fa-heart" style="color:#ffb6c1;"></i></a>
+            <br>
+            My Order History   <a href="/order_history"><i class="fa fa-archive" style="color:brown"></i></a>
+            <br><br>
+            </div>
+        <a href='/change_password' class="btn text-align:center" style="background-color:#ffd0b6; color:white;">Change Password</a>
+        <br>
+        </div>
+    </div>
+</div>
+<div class="margin-bottom">
+        &nbsp;
+</div>
+
+
+{% endblock content%}

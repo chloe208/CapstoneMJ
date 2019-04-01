@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% load static %}
+<style>
+  .dis {
+  font-size: 10px;
+  color:crimson;
+
+}
+.margin {
+  margin: 30px;
+
+}
+
+body{
+  font-family: "Poppins", sans-serif;
+
+}
+</style>
+
+
+{% block content %}
+<div class="margin-top">
+</div>
+<div class="container">
+
+  <div class="contact_title">
+    <h2>Color Recognition System<br><br>
+    We can find your right cosmetic shade!</h2>
+    <h4>*We recommend you to take a picture under natural light for more accurate result.</h4><br><hr>
+    <div class="row">
+    <h6>Color Recognition system is to help you on finding the right cosmetic shade.
+      This system will be available for any user who is interested in makeup.
+      In order to maximize the accuracy of the result, it will suggest cosmetic products
+      from the database. Then you could choose a product based on the preference and budget.
+      Each product will have a page with product description, how to use and cruelty-free cosmetics label for
+      the products that are have not tested on animals.
+      After choosing the product, you may add the product to favorites and or to the shopping cart
+      and proceed to checkout.
+      <hr></div>
+      <p class="dis">*Disclaimer: The picture you have uploaded might be saved in our database for the research
+        purpose.
+        The data will not be sold, rented, leased or forwarded to any third party. By uploading the image,
+        you are agreeing to these terms.
+      </p>
+      <p class="dis">Tips: The picture should be centered and taken in a place with a natural lighting to get more accurate results.
+      </p>
+    </h6>
+    <div class="margin">
+
+
+    </div>
+    
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <input type="file" name="myfile">
+      <button type="submit" class="btn" style="background-color:black; color:white;">Upload</button>
+    </form>
+
+    {% if uploaded_file_url %}
+    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+    {% endif %}
+
+    {% comment %} <p><a href="{% url 'get_colors' %}">Submit</a></p> {% endcomment %}
+    <div class="margin">
+    </div>
+  </div>
+</div>
+<div class="margin-bottom">
+  &nbsp;
+</div>
+{% endblock %}

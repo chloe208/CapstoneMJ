@@ -1,0 +1,153 @@
+{# THIS IS WHERE THE HEADER FOOTER IS #}
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# THIS IS FOR THE HEAD TITLE #}
+{% block head_title %}
+WELCOME TO
+{% endblock %}
+
+{# FOR BOOTSTRAP BUT IS NOW WORKING #}
+{% comment %}
+{%block jquery %}{% endblock %}
+{% endcomment %}
+
+{# THIS IS THE CONTENT OF THE WEB PAGE #}
+{# DIANA'S CODE #}
+
+
+{% block jumbotron %}
+
+<style>
+  body{
+  font-family: "Poppins", sans-serif;
+
+}
+
+
+</style>
+
+<div class="container">
+                &nbsp;
+        <div class="contact_title">
+                        <h1>Products Based on the uploaded image:</h1>
+        </div>
+    
+        <div class="row">
+            {% for product in colors %}
+            {% if product.productimage_set.all %}
+            <div class="col-sm">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        {% for item in product.productimage_set.all %}
+                        <!-- {{item.image}} -->
+                        {% if item.featured %}
+                        <div class="container" style="width: 160px; height: 220px;">
+                            <a href='{{product.get_absolute_url}}'>
+                                <div style="width: 150px; 
+                                        height: 220px;
+                                        margin: 0 auto;
+                                        background-image: url('{{ MEDIA_URL }}{{ item.image.url }}');
+                                        background-repeat: no-repeat;
+                                        background-size: cover;
+                                        background-position: center;
+                                        object-fit: contain;                         
+                                         ">
+                                </div>
+                            </a>
+                        </div>
+                        {% comment %} <img class='img-responsive img-fluid' src="{{ MEDIA_URL }}{{ item.image.url }}" alt="img" />
+                        {% endcomment %}
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        {% load staticfiles %}
+                        <img class='image-responsive img-fluid rounded mx-auto d-block' src="{% static '/media/products/images/p.svg' %}"
+                            alt="placeholder" />
+                        {% endif %}
+                        <hr>
+                        <div class="block">
+                            <a href='{{product.get_absolute_url}}'>
+                                <h6>{{ product.brand }}</h6>
+                           </a>
+                            <p>{{product.name|truncatewords:3}}</p>
+                            <p>$ {{product.price|truncatewords:6}}</p>
+                            <!-- <p><a href="{% url 'add_to_cart' product.slug %}" class="fa fa-shopping-cart"></a> -->
+                                <a href='{% url "update_favorite" product.slug %}' class="fa fa-heart" style="color:#FFB6C1 text-decoration: none;"></a>
+                            </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="container">
+       
+                        <div class="margin-top">
+                            </div>
+                            
+            
+                <div class="row">
+                    {% for product in empty %}
+                    {% if product.productimage_set.all %}
+                    <div class="col-sm">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                {% for item in product.productimage_set.all %}
+                                <!-- {{item.image}} -->
+                                {% if item.featured %}
+                                <div class="container" style="width: 160px; height: 220px;">
+                                    <a href='{{product.get_absolute_url}}'>
+                                        <div style="width: 150px; 
+                                                height: 220px;
+                                                margin: 0 auto;
+                                                background-image: url('{{ MEDIA_URL }}{{ item.image.url }}');
+                                                background-repeat: no-repeat;
+                                                background-size: cover;
+                                                background-position: center;
+                                                object-fit: contain;                         
+                                                 ">
+                                        </div>
+                                    </a>
+                                </div>
+                                {% comment %} <img class='img-responsive img-fluid' src="{{ MEDIA_URL }}{{ item.image.url }}" alt="img" />
+                                {% endcomment %}
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                {% load staticfiles %}
+                                <img class='image-responsive img-fluid rounded mx-auto d-block' src="{% static '/media/products/images/p.svg' %}"
+                                    alt="placeholder" />
+                                {% endif %}
+                                <hr>
+                                <div style="display: flex; padding-left: 95px">
+                                <form method='POST' action="{% url 'add_to_cart' product.slug %}">
+                                    {% csrf_token %}
+                                    <input type="hidden"class='form-control' name='qty' type='number' value='1' />
+                                    <button style="background:transparent;border:none;width-bottom:100px" type="submit" class="fa fa-shopping-cart">
+                                    </button>
+                                </form>
+                                <form method='POST' action="{% url 'update_favorite' product.slug %}">
+                                        {% csrf_token %}
+                                        <input type="hidden"class='form-control' name='qty' type='number' value='1' />
+                                        <button style="color:#FFB6C1;background:transparent;border:none;width-bottom:100px" type="submit" class="fa fa-heart">
+                                        </button>
+                                </form>
+                            </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+<div class="margin-bottom">
+
+</div>
+
+{% endblock %}

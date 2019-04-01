@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    .body {
+        font-family: "Poppins", sans-serif;
+
+    }
+
+ </style>
+<div class="margin-top"></div>
+<div class="container">
+    <h2 style="text-align:center;">Add New Comment</h2><br><br>
+    <form method='POST' class="post-form display:inline-block;">{% csrf_token %}
+ 
+        {% crispy form %}
+
+    </form>
+</div>
+<div class="margin-bottom"></div>
+
+{% endblock %}

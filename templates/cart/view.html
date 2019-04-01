@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css">
+
+<style>
+    body {
+        font-family: "Poppins", sans-serif;
+    }
+    
+li a:hover{
+  text-decoration: none;
+}
+</style>
+{% if empty %}
+
+<div class="container" style="text-align:center;">
+<section class="emty_cart_area p_100">
+    <div class="container">
+    <img src='/static/media/empty-cart.png' class="img-responsive" style="max-width:20%; max-height:20%; object-fit:contain;">
+        <div class="emty_cart_inner">
+            <h3>{{ empty_message }}</h3><br>
+             <a class="btn" style="background-color:black;color: white" href='{% url "products"%}'>Continue Shopping</a>
+             <a class="btn" style="background-color:black;color: white" href='/'>Back to Home</a>
+        </div>
+    </div>
+</section>
+<div class="margin-bottom">
+
+</div>
+
+
+
+</div>
+
+{% else %}
+
+
+
+<!--================Shopping Cart Area =================-->
+<section class="shopping_cart_area p_100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="cart_product_list">
+                    <h3 class="cart_single_title" style="text-align:center;">Cart</h3>
+                    <div class="table-responsive-md">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for item in cart.cartitem_set.all%}
+
+                                <tr>
+                                    <th scope="row">
+                                        <a href='{% url "remove_from_cart" item.id %}'><i class="fas fa-trash-alt"></i></a>
+                                    </th>
+                                    <td>
+                                        <div class="media">
+
+                                            <div class="d-flex">
+                                                <!-- <a href='{{ item.product.image.get_absolute_url }}'>Remove</a>                                                        </div> -->
+                                                <div class="media-body">
+                                                    <a href='{{ item.product.get_absolute_url }}' style="color:black;">{{item.product.name}}</a>
+                                                </div>
+                                            </div>
+                                    </td>
+
+                                    <td>{{item.product.price}}</td>
+                                    <td>{{item.quantity}}</td>
+                                    <td><a href='{% url "remove_from_cart" item.id %}' style="color:red;"><i class="fa fa-trash"></i></a></td>
+                                    {%endfor%}
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4">
+                <div class="total_amount_area">
+                    <div class="cart_totals">
+                        <h3 class="cart_single_title" style="text-align:center;">Total</h3>
+                        <div class="cart_total_inner">
+                            <ul>
+                                <li><a href="#"><span>Total Item(s)</span>{{request.session.items_total}}</a></li>
+                                <li><a href="#"><span>Subtotal</span>$ {{cart.total|floatformat:2}}</a></li>
+                                <li><a href="#"><span>GST/HST</span>$ {{request.session.tax_total|floatformat:2}}</a></li>
+                                <li><a href="#"><span>Shipping</span>$ {{request.session.shipping_fee|floatformat:2}}</a></li>
+                                <li><a href="#"><span>Total Amount</span>${{request.session.final_total|floatformat:2}}</a></li>
+                            </ul>
+                        </div>
+                        <div class='col-sm-12'>
+                            <a class="float-left btn" style="background-color:#ffd0b6;" href='{% url "products"%}'>Continue Shopping</a>
+                            <a class="float-right btn" style="background-color:#d0b6ff;" href='{% url "checkout"%}'>Process Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="margin-bottom">
+    &nbsp;
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container">
+
+    <div class='col-sm-8 col-sm-offset-2'>
+        <table class="table">
+            <thead>
+                <th></th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th></th>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td>Total:</td>
+                    <td> </td>
+                    <td> </td>
+                    <td>{{cart.total|floatformat:2}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Shipping Fee:</td>
+                    <td> </td>
+                    <td> </td>
+                    <td>${{request.session.shipping_fee|floatformat:2}} </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>GST/HST:</td>
+                    <td> </td>
+                    <td> </td>
+                    <td>${{request.session.tax_total|floatformat:2}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Subtotal:</td>
+                    <td> </td>
+                    <td>{{request.session.items_total}} items</td>
+                    <td>${{request.session.final_total|floatformat:2}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+
+            {%for item in cart.cartitem_set.all%}
+            <tr>
+                <td></td>
+                <td><a href='{{ item.product.get_absolute_url }}'>{{item.product}}</a></td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.product.price}}</td>
+                <td><a href='{% url "remove_from_cart" item.id %}'>Remove</a>
+            </tr>
+            {%endfor%}
+        </table>
+        <div class='col-sm-12'>
+            <a class="float-left btn btn-warning" href='{% url "products"%}'>Continue Shopping</a>
+            <a class="float-right btn btn-info" href='{% url "process_payment"%}'>Process Checkout</a>
+        </div>
+    </div>
+</div> -->
+{% endif %}
+{% endblock %}

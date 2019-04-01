@@ -1,0 +1,146 @@
+{# THIS IS WHERE THE HEADER FOOTER IS #}
+{% extends "base.html" %}
+{% load staticfiles %}
+<style>
+    .margin {
+        padding: 30px;
+    }
+
+    body {
+        font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    }
+</style>
+
+{# THIS IS FOR THE HEAD TITLE #}
+{% block head_title %}
+PRODUCTS ||
+{% endblock %}
+
+{# FOR BOOTSTRAP BUT IS NOW WORKING #}
+{% comment %}
+{%block jquery %}{% endblock %}
+{% endcomment %}
+
+{# THIS IS THE CONTENT OF THE WEB PAGE #}
+{# DIANA'S CODE #}
+
+
+
+{% block jumbotron %}
+<div class="margin-top"></div>
+<div class="container">
+    <div class="contact_title">
+        <div class="row">
+            <div class="col-sm-3 col-md-6 col-lg-4">
+                <img class="imgT" src="/static/media/bobbiLogo.jpg" alt="">
+            </div>
+            <div class="col-sm-9 col-md-6 col-lg-8">Bobbi Brown Cosmetics was founded in 1990 with the introduction of
+                10 super -- wearable
+                lipstick shades. Revolutionary foundation sticks soon followed, as well as a complementary skin care
+                line
+                that underscored the brand's purpose: to enhance the natural beauty of the wearer --- working with
+                what's
+                already there, without any artificial colors --- so a woman always looks and feels like herself.</div>
+        </div>
+        <div class="margin-top">
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="pill-nav">
+                <a class="active" href="/bobbibrown">View all</a>
+                <a href="/bobbibrown_foundation">Foundation</a>
+                <a href="/bobbibrown_lipstick">Lipstick</a>
+            </div>
+        </div>
+        <div class="margin-top">
+        </div>
+        <div class="container">
+            <div class="row">
+                {% for product in products %}
+                {% if product.productimage_set.all %}
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            {% for item in product.productimage_set.all %}
+                            <!-- {{item.image}} -->
+                            {% if item.featured %}
+                            <div class="container" style="width: 160px; height: 220px;">
+                                <a href='{{product.get_absolute_url}}'>
+                                    <div style="width: 150px; 
+                                    height: 220px;
+                                    margin: 0 auto;
+                                    background-image: url('{{ MEDIA_URL }}{{ item.image.url }}');
+                                    background-repeat: no-repeat;
+                                    background-size: cover;
+                                    background-position: center;
+                                    object-fit: contain;                         
+                                     ">
+                                    </div>
+                                </a>
+                            </div>
+                            {% comment %} <img class='img-responsive img-fluid' src="{{ MEDIA_URL }}{{ item.image.url }}"
+                                alt="img" /> {% endcomment %}
+                            {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            {% load staticfiles %}
+                            <img class='image-responsive img-fluid rounded mx-auto d-block' src="{% static '/media/products/images/p.svg' %}"
+                                alt="placeholder" />
+                            {% endif %}
+                            <hr>
+                            <div class="block">
+                            
+                                <h6>{{ product.brand }}</h6>
+                               <a href='{{product.get_absolute_url}}' style="color:black;">
+                                <p>{{product.name|truncatewords:6}}</p></a>
+                                <p>$ {{product.price|truncatewords:6}}</p>
+                                <div style="display: flex; padding-left: 95px">
+                                        <form method='POST' action="{% url 'add_to_cart' product.slug %}">
+                                            {% csrf_token %}
+                                            <input type="hidden"class='form-control' name='qty' type='number' value='1' />
+                                            <button style="background:transparent;border:none;width-bottom:100px" type="submit" class="fa fa-shopping-cart">
+                                            </button>
+                                        </form>
+                                        <form method='POST' action="{% url "update_favorite" product.slug %}">
+                                                {% csrf_token %}
+                                                <input type="hidden"class='form-control' name='qty' type='number' value='1' />
+                                                <button style="color:#FFB6C1;background:transparent;border:none;width-bottom:100px" type="submit" class="fa fa-heart">
+                                                </button>
+                                        </form>
+                                    </div>
+                                <!-- <p><a href="{% url 'add_to_cart' product.slug %}" class="fa fa-shopping-cart"></a> -->
+                                <!-- <a href='{% url "update_favorite" product.slug %}' class="fa fa-heart" style="color:#FFB6C1"></a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <nav aria-label="Page navigation example" class="pagination_area">
+            <ul class="pagination">
+                {% if products.has_previous %}
+                <li class="page-item next"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item next"><a class="page-link" href="?page={{ products.previous_page_number }}"
+                        tabindex="-1">Previous</a></li>
+                {% endif %}
+
+                <li class="page-item"><a class="page-link" href="?page={{ products.number }}">{{ products.number }}</a></li>
+                <li class="page-item">OF</li>
+                <li class="page-item"><a class="page-link" href="?page={{ products.paginator.num_pages }}">{{ products.paginator.num_pages }}</a></li>
+
+                {% if products.has_next %}
+                <li class="page-item next"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
+                <li class="page-item next"><a class="page-link" href="?page={{ products.paginator.num_pages }}">Last</a></li>
+                {% endif %}
+
+            </ul>
+        </nav>
+        <div class="margin-bottom">
+                &nbsp;
+            
+            </div>
+
+        {% endblock %}

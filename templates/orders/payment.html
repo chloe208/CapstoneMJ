@@ -1,0 +1,11 @@
+
+<form action="/payment" method="POST">
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="stripe_key" # Make sure to wrap the variable name with double {}
+        data-amount="{{cart.total}}"
+        data-name="Your APp"
+        data-description="Your Product"
+        data-image="Link to your logo"
+        data-currency="cad">
+    </script>
+</form>

@@ -1,0 +1,37 @@
+ACCOUNTS
+- payment and billings
+
+CARTS
+- adding cart item
+- remove
+- checkout
+- view
+
+COLOR ME THIS 
+- this is the main app where you can edit the paths and stuff
+
+FAVORITES
+- add to favorites
+- add to cart
+
+ORDERS
+- showing order ids
+
+PRODUCTS
+- color recognition feature
+- search
+- home page
+- products page
+- single product page
+
+STATIC
+- database files
+
+TEMPLATES
+- html files
+
+USERS
+- login/register
+
+
+

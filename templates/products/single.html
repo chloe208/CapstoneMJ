@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+    body{
+        font-family: "Poppins", sans-serif;
+    }
+    
+    .navbar-nav{
+        padding-left: 30%;
+    }    
+
+    .fa-search:before{
+        padding-right: 10px;
+    }
+</style>
+
+<div class="margin-top">
+    &nbsp;
+</div>
+<section class="product_details_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="product_details_slider">
+                    <div>
+                        <div class="slotholder">
+                            {% for img in images %}
+                            {% if img.featured %}
+                      
+                            <img class='product img-responsive' src="{{ MEDIA_URL }}{{ img.image.url }}" alt="img" />
+                            {% else %}
+                            {% comment %} <div class="col-xs-6 col-md-3"> {% endcomment %}
+                                <a href="#" class="thumbnail">
+                                    <img class='img-responsive' src="{{ MEDIA_URL }}{{ img.image.url }}" alt="img" /></a>
+                                {% comment %} </div> {% endcomment %}
+                            {% comment %} <p>Not Featured</p>
+                            <img class='img-table-responsive' src="{{ MEDIA_URL }}{{ img.image }}"> {% endcomment %}
+                            {% endif %}
+                            {% comment %} {% if not img.featured %}
+                            <img class='img-table-responsive' src="{{ MEDIA_URL }}{{ img.image }}">
+                            {% endif %} {% endcomment %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-8">
+                <div class="product_details_text">
+                    <h3>{{product.name}}</h3>
+                    <h4>Brand: {{product.brand}}</h4>
+                    <h4 class=>Product Code: {{product.title}}</h4>
+
+                    <h6>Available In <span>Stock</span></h6>
+                    <h4>${{product.price}}</h4>
+                    <!-- <h5>Shipping: Free with $25+ purchase</h5> -->
+                    <p>{{product.description}}</p>
+
+
+                    <div class="quantity">
+                        <div class="custom">
+                            <form class='form' method='POST' action="{% url 'add_to_cart' product.slug %}">
+                                    <div class="container">
+                                            <div class="row">
+                                {% csrf_token %}
+                                <input class='form-control col-sm-8' name='qty' type='number' value='1' />
+                                
+                                <button class='add_cart_btn col-sm-8' type="submit">Add to Cart</button>
+                            </form>
+                            <a class="add_cart_btn col-sm-8" style="text-align:center;"href='{% url "update_favorite" product.slug %}'>Add to Favorite</a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="shareing_icon">
+                                <ul>
+                                    <a class='col' data-href="colormethis.pythonanywhere.com" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"><i class="fa fa-facebook" aria-hidden="true" style='color:black;'></i></a>
+                                    <a class='col' href="https://twitter.com/intent/tweet?source=webclient&text=A+ColorMeThis+product+I+want+to+share"><i class="fa fa-twitter" style='color:black;' aria-hidden="true"></i></a>
+                                    <a class='col' href="http://instagram.com/###?ref=badge"><i class="fa fa-instagram" aria-hidden="true" style='color:black;'></i></a>
+                                </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<section class="product_description_area">
+    <div class="container">
+        <nav class="tab_menu">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                    aria-controls="nav-home" aria-selected="true">How To Use</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                    aria-controls="nav-profile" aria-selected="false">Reviews({{comment.count}})</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <p> &nbsp;
+                    {{product.how_to_use}}</p>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                   <div class="main-comment-section">
+                    <h4><a href="{% url 'comment' slug=product.slug %}">Share Your Thoughts</a></h4>
+                    {% for c in comment.all %}
+                    <p class="mb-0">Date: {{c.timestamp}}</p>
+                    <p>Username: {{user.username}}</p>
+                    <p class="mb-0">Rating: {{c.ratings}} </p>
+                    <p class="mb-0">Comment: {{ c.content }} </p>
+                    <hr>
+                    {% empty %}
+                    <p class="mb-0">There is no comments</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="margin-bottom">
+</div>
+
+
+{% endblock %}

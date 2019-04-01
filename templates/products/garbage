@@ -1,0 +1,23 @@
+<table>
+    {% for col in color %}
+        {% if forloop.counter0|divisibleby:3 %}
+        <!-- on every 3 items put on next row -->
+            <tr>
+        {% elif forloop.first %}
+        <!-- if first item -->
+            <tr>
+        {% endif %}
+        <style>
+            #shade{
+                padding: 40px 10px 5px 5px;
+                margin: 50px 5px 0 50px;
+            }
+        </style>
+            <td>
+                <h2 id="shade" style="color:transparent; background-color:rgb{{col}};"> 
+                    shade
+                </h2>
+                <label id="shade" style="margin-top:0px;">{{col}}</label>
+            </td>
+    {%endfor%}
+</table>

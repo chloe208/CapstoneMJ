@@ -1,0 +1,214 @@
+{# THIS IS WHERE THE HEADER FOOTER IS #}
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# THIS IS FOR THE HEAD TITLE #}
+{% block head_title %}
+WELCOME TO
+{% endblock %}
+
+{# FOR BOOTSTRAP BUT IS NOW WORKING #}
+{% comment %}
+{%block jquery %}{% endblock %}
+{% endcomment %}
+
+{# THIS IS THE CONTENT OF THE WEB PAGE #}
+{# DIANA'S CODE #}
+
+
+
+
+{% block jumbotron %}
+<style>
+    .margin-top {
+        padding: 30px;
+    }
+
+    .margin-bottom {
+        padding: 200px;
+    }
+
+    .subject {
+        text-align: center;
+    }
+
+    body {
+        font-family: "Poppins", sans-serif;
+    }
+
+    .text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* font-family: 'Times New Roman', Times, serif; */
+        size: 50px;
+        font-weight: 900;
+        color:white;
+    }
+    .bannerButton {
+
+    }
+ 
+
+    .newFeatureText {
+
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: "Poppins", sans-serif;
+        color: aliceblue;
+
+
+    }
+
+    .featureImg {
+        width: 100%;
+    }
+
+    .col-sm {
+        padding-bottom: 20px;
+    }
+</style>
+
+
+<div class="bd-example">
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <img src="/static/media/banner5.jpg" class="d-block w-100" alt="..." height="500" width="1000">
+            <div class="text">
+                <h1 style="color:black;text-shadow: 2px 2px white;">Try Our Shade Finder</h1>
+                <h4 style="color:black;background-color: rgba(255, 255, 255, .2);">Tired of buying and returning wrong color? We can help you find the right shades.</h4>
+                <a href="/upload" class="bannerButton" >Click Here To Find the Best Shade!</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Feature Area -->
+
+<div class="margin-top">
+
+</div>
+
+<section class="feature_add_area">
+    <div class="container">
+        <div class="row feature_inner">
+            <div class="col-lg-5">
+                <div class="f_add_item">
+                    <div class="f_add_img"><img class="featureImg" src="static/media/foundation.jpg" alt=""></div>
+                    <div class="newFeatureText">
+                        <h4>Best Foundation <br />Collection</h4>
+                        <a class="add_btn" href="/foundation">Shop Now <i class="arrow_right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="f_add_item right_dir">
+                    <div class="f_add_img"><img class="featureImg" src="static/media/lipstick.jpg" alt=""></div>
+                    <div class="f_add_hover">
+                        <h4>Best Summer Lipstick <br />Collection</h4>
+                        <a class="add_btn" href="/lipstick">Shop Now <i class="arrow_right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="f_add_item">
+                    <div class="f_add_img"><img class="featureImg" src="static/media/cosmetic2.jpg" alt=""></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!--================End Feature Add Area =================-->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- New Arrival Area -->
+<div class="margin-top">
+    &nbsp;
+    <div class="subject">
+        <h1>Just Arrived!</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        {% for product in products|slice:":6" %}
+        {% if product.productimage_set.all %}
+        <div class="col-sm">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    {% for item in product.productimage_set.all %}
+                    <!-- {{item.image}} -->
+                    {% if item.featured %}
+                    <div class="container" style="width: 160px; height: 220px;">
+                        <a href='{{product.get_absolute_url}}'>
+                            <div style="width: 150px; 
+                                    height: 220px;
+                                    margin: 0 auto;
+                                    background-image: url('{{ MEDIA_URL }}{{ item.image.url }}');
+                                    background-repeat: no-repeat;
+                                    background-size: cover;
+                                    background-position: center;
+                                    object-fit: contain;                         
+                                     ">
+                            </div>
+                        </a>
+                    </div>
+                    {% comment %} <img class='img-responsive img-fluid' src="{{ MEDIA_URL }}{{ item.image.url }}" alt="img" />
+                    {% endcomment %}
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    {% load staticfiles %}
+                    <img class='image-responsive img-fluid rounded mx-auto d-block' src="{% static '/media/products/images/p.svg' %}"
+                        alt="placeholder" />
+                    {% endif %}
+                    <hr>
+                    <div class="block">
+                        <a href='{{product.get_absolute_url}}'>
+                            <font color="black">
+                                <h6>{{ product.brand }}</h6>
+                            </font>
+                        </a>
+                        <p>{{product.name|truncatewords:6}}</p>
+                        <p>$ {{product.price|truncatewords:6}}</p>
+                        <div style="display: flex; padding-left: 95px">
+                                <form method='POST' action="{% url 'add_to_cart' product.slug %}">
+                                    {% csrf_token %}
+                                    <input type="hidden"class='form-control' name='qty' type='number' value='1' />
+                                    <button style="background:transparent;border:none;width-bottom:100px" type="submit" class="fa fa-shopping-cart">
+                                    </button>
+                                </form>
+                                <form method='POST' action='{% url "update_favorite" product.slug %}'>
+                                        {% csrf_token %}
+                                        <input type="hidden"class='form-control' name='qty' type='number' value='1' />
+                                        <button style="color:#FFB6C1;background:transparent;border:none;width-bottom:100px" type="submit" class="fa fa-heart">
+                                        </button>
+                                </form>
+                            </div>
+                        <!-- <p><a href="{% url 'add_to_cart' product.slug %}" class="fa fa-shopping-cart"></a> -->
+                        <!-- <a href='{% url "update_favorite" product.slug %}' class="fa fa-heart" style="color:#FFB6C1"></a> -->
+                    </div>    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="margin-bottom">
+    &nbsp;
+</div>
+{% endblock %}

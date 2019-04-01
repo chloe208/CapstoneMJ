@@ -1,0 +1,20 @@
+{# THIS IS WHERE THE HEADER FOOTER IS #}
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="margin">
+    </div>
+<div class = "container">
+        <div class="contact_title">
+
+    <h2>Your Profile</h2>
+
+    <p><strong>Username: </strong>{{ user.username }}</p>
+    <p>Firstname: {{ user.first_name }}</p>
+    <p>Lastname: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+</div>
+{% endblock content%}
+
